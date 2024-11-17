@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, computed, effect, input, Input } from '@angular/core';
 
 @Component({
   selector: 'app-user',
@@ -8,14 +8,30 @@ import { Component, Input } from '@angular/core';
   styleUrl: './user.component.css',
 })
 export class UserComponent {
-  @Input()
-  avatar: string = '';
+  //? old way (Angular < 18)
+  // @Input({ required: true }) avatar: string = '';
+  // @Input({ required: true }) name: string = '';
 
-  @Input()
-  name: string = '';
+  //? new way (Angular 18)
+  //? receiving input using signal
+  //?   syntax: input.required<T>()
+  //?   note: you cant pass an initial val by  setting it as required
+  avatar = input.required<string>();
+  name = input.required<string>();
 
-  get imagePath(): string {
-    return 'assets/users/' + this.avatar;
+  //? without using signals
+  // get imagePath(): string {
+  //   return 'assets/users/' + this.avatar;
+  // }
+
+  //? using signals
+  imagePath = computed(() => 'assets/users/' + this.avatar());
+
+  constructor() {
+    //? runs when signal value changes
+    effect(() => {
+      console.log(this.imagePath());
+    });
   }
 
   onSelectUser() {
