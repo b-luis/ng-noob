@@ -1,7 +1,7 @@
 import { Component, computed, effect, signal } from '@angular/core';
 import { HeaderComponent } from './shared/components/header/header.component';
 import { UserComponent } from './features/user/user.component';
-import { DUMMY_USERS } from './shared/data/dummy-users';
+import { DUMMY_USERS } from '../dummy-users';
 import { TasksComponent } from './features/tasks/tasks.component';
 import { User } from './shared/models/user.model';
 
@@ -14,11 +14,13 @@ import { User } from './shared/models/user.model';
 })
 export class AppComponent {
   users: User[] = DUMMY_USERS;
-  selectedUserId = signal<string>('');
+  selectedUserId = signal<string | undefined>('');
 
-  selectedUser = computed(() =>
-    this.users.find((user) => user.id === this.selectedUserId())
-  );
+  selectedUser = computed(() => {
+    return this.users.find((user) =>
+      user ? user.id === this.selectedUserId() : ''
+    );
+  });
 
   constructor() {
     effect(() => {

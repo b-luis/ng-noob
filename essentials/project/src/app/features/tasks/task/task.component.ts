@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { Task } from '../../../shared/models/task.model';
 
 @Component({
@@ -9,5 +9,18 @@ import { Task } from '../../../shared/models/task.model';
   styleUrl: './task.component.css',
 })
 export class TaskComponent {
-  task = input<Task>();
+  task = input<Task>({
+    id: '',
+    userId: '',
+    title: '',
+    summary: '',
+    dueDate: '',
+  });
+
+  complete = output<string>();
+
+  onCompleteTask() {
+    this.complete.emit(this.task().id);
+    console.log('EMITTING THISSS', this.task().id);
+  }
 }
