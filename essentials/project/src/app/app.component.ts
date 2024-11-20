@@ -1,7 +1,7 @@
 import { Component, computed, effect, signal } from '@angular/core';
 import { HeaderComponent } from './shared/components/header/header.component';
 import { UserComponent } from './features/user/user.component';
-import { DUMMY_USERS } from '../dummy-users';
+import { DUMMY_USERS } from './shared/data/dummy-users';
 import { TasksComponent } from './features/tasks/tasks.component';
 import { User } from './shared/models/user.model';
 

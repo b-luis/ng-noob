@@ -1,44 +1,48 @@
-import {
-  Component,
-  computed,
-  effect,
-  input,
-  output,
-  signal,
-} from '@angular/core';
+import { Component, computed, effect, input, signal } from '@angular/core';
 import { TaskComponent } from './task/task.component';
 import { DUMMY_TASKS } from '../../shared/data/dummy-tasks';
 import { Task } from '../../shared/models/task.model';
 import { User } from '../../shared/models/user.model';
+import { NewTaskComponent } from './new-task/new-task.component';
 
 @Component({
   selector: 'app-tasks',
   standalone: true,
-  imports: [TaskComponent],
+  imports: [TaskComponent, NewTaskComponent],
   templateUrl: './tasks.component.html',
   styleUrl: './tasks.component.css',
 })
 export class TasksComponent {
-  // tasks: Task[] = DUMMY_USERS;
-  #tasks = signal<Task[]>(DUMMY_TASKS);
+  // inputs
+  selectedUser = input<User>();
 
-  readonly selectedUser = input<User>();
+  // signals
+  #tasks$$ = signal<Task[]>(DUMMY_TASKS);
+  isAddingTask$$ = signal<boolean>(false);
 
+  // computed values
   readonly selectedUserTasks = computed(() => {
     const userId = this.selectedUser()?.id;
-    return userId ? this.#tasks().filter((task) => task.userId === userId) : [];
+    return userId
+      ? this.#tasks$$().filter((task) => task.userId === userId)
+      : [];
   });
 
   readonly name = computed(() => this.selectedUser()?.name);
 
-  protected onAddTask() {}
+  constructor() {}
 
-  protected onCompleteTask(id: string): void {
-    //? old
-    // this.tasks = this.tasks().filter((task) => task.id !== id);
-    //? new -- converted to signal
-    this.#tasks.update((currentTasks) => {
+  public onStartAddTask(): void {
+    return this.isAddingTask$$.update((add) => !add);
+  }
+
+  public onCompleteTask(id: string): void {
+    this.#tasks$$.update((currentTasks) => {
       return currentTasks.filter((task) => task.id !== id);
     });
+  }
+
+  public onCancelDialog(bool: boolean): void {
+    return this.isAddingTask$$.set(bool);
   }
 }

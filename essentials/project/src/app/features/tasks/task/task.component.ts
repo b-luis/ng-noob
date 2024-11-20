@@ -21,6 +21,5 @@ export class TaskComponent {
 
   onCompleteTask() {
     this.complete.emit(this.task().id);
-    console.log('EMITTING THISSS', this.task().id);
   }
 }
