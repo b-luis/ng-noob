@@ -19,7 +19,7 @@ export class TaskComponent {
 
   complete = output<string>();
 
-  onCompleteTask() {
+  public onCompleteTask(): void {
     this.complete.emit(this.task().id);
   }
 }
