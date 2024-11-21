@@ -1,17 +1,31 @@
-import { Component, EventEmitter, output, Output } from '@angular/core';
+import { Component, output, signal } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { NewTask } from '../../../shared/models/task.model';
 
 @Component({
   selector: 'app-new-task',
   standalone: true,
-  imports: [],
+  imports: [FormsModule],
   templateUrl: './new-task.component.html',
   styleUrl: './new-task.component.css',
 })
 export class NewTaskComponent {
   cancel = output<boolean>();
+  add = output<NewTask>();
 
-  onCancel() {
-    //? new version of output() requires a value to be emitted.
-    this.cancel.emit(false);
+  title$$ = signal<string>('');
+  summary$$ = signal<string>('');
+  date$$ = signal<string>('');
+
+  public onCancel(): void {
+    return this.cancel.emit(false);
+  }
+
+  public onSubmit(): void {
+    return this.add.emit({
+      title: this.title$$(),
+      summary: this.summary$$(),
+      dueDate: this.date$$(),
+    });
   }
 }
