@@ -1,7 +1,7 @@
 import { Component, computed, effect, input, signal } from '@angular/core';
 import { TaskComponent } from './task/task.component';
 import { DUMMY_TASKS } from '../../shared/data/dummy-tasks';
-import { Task } from '../../shared/models/task.model';
+import { Task, NewTask } from '../../shared/models/task.model';
 import { User } from '../../shared/models/user.model';
 import { NewTaskComponent } from './new-task/new-task.component';
 
@@ -13,24 +13,25 @@ import { NewTaskComponent } from './new-task/new-task.component';
   styleUrl: './tasks.component.css',
 })
 export class TasksComponent {
-  // inputs
-  selectedUser = input<User>();
+  selectedUser = input.required<User | undefined>();
 
-  // signals
   #tasks$$ = signal<Task[]>(DUMMY_TASKS);
   isAddingTask$$ = signal<boolean>(false);
 
-  // computed values
-  readonly selectedUserTasks = computed(() => {
+  selectedUserTasks = computed(() => {
     const userId = this.selectedUser()?.id;
     return userId
       ? this.#tasks$$().filter((task) => task.userId === userId)
       : [];
   });
 
-  readonly name = computed(() => this.selectedUser()?.name);
+  name = computed(() => this.selectedUser()?.name);
 
-  constructor() {}
+  constructor() {
+    effect(() => {
+      console.log('SELECTED USER ID', this.selectedUser()?.id);
+    });
+  }
 
   public onStartAddTask(): void {
     return this.isAddingTask$$.update((add) => !add);
@@ -42,7 +43,18 @@ export class TasksComponent {
     });
   }
 
-  public onCancelDialog(bool: boolean): void {
+  public onCancelAddTask(bool: boolean): void {
     return this.isAddingTask$$.set(bool);
+  }
+
+  public onAddTask(formVal: NewTask): void {
+    const newTask = {
+      id: 't4',
+      userId: this.selectedUser()?.id,
+      ...formVal,
+    };
+
+    this.#tasks$$.update((currentTasks: any) => [...currentTasks, newTask]);
+    this.onCancelAddTask(false);
   }
 }
