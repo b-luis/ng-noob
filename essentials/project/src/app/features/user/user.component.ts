@@ -17,28 +17,16 @@ import { CommonModule } from '@angular/common';
   styleUrl: './user.component.css',
 })
 export class UserComponent {
-  // id = input.required<string>();
-  // avatar = input.required<string>();
-  // name = input.required<string>();
-
   user = input.required<User>();
-  select = output<string>();
   selected = input.required<boolean>();
+
+  select = output<string>();
 
   imagePath = computed(() => 'assets/users/' + this.user()?.avatar);
 
-  constructor() {
-    effect(() => {
-      console.log('User:', this.user());
-      console.log('Selected:', this.selected());
-    });
-  }
+  constructor() {}
 
-  ngOnInit() {
-    console.log(this.selected());
-  }
-
-  onSelectUser() {
+  public onSelectUser() {
     this.select.emit(this.user().id);
   }
 }
