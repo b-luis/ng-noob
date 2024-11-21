@@ -14,12 +14,10 @@ import { User } from './shared/models/user.model';
 })
 export class AppComponent {
   users: User[] = DUMMY_USERS;
-  selectedUserId = signal<string | undefined>('');
+  selectedUserId = signal<string>('');
 
   selectedUser = computed(() => {
-    return this.users.find((user) =>
-      user ? user.id === this.selectedUserId() : ''
-    );
+    return this.users.find((user) => user.id === this.selectedUserId());
   });
 
   constructor() {
