@@ -9,14 +9,14 @@
   <ul>
     @for (task of selectedUserTasks(); track task.id) {
     <li>
-      <app-task [task]="task" (complete)="onCompleteTask($event)" />
+      <et-task [task]="task" (complete)="onCompleteTask($event)" />
     </li>
     }
   </ul>
 
   <ng-container>
     @if (isAddingTask$$()) {
-    <app-new-task (add)="onAddTask($event)" (cancel)="onCancelAddTask($event)" />
+    <add-new-task (add)="onAddTask($event)" (cancel)="onCancelAddTask($event)" />
     }
   </ng-container>
 </section>

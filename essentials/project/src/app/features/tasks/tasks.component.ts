@@ -6,7 +6,7 @@ import { type Task, type NewTaskData } from '../../shared/models/task.model';
 import { type User } from '../../shared/models/user.model';
 
 @Component({
-  selector: 'app-tasks',
+  selector: 'et-tasks',
   standalone: true,
   imports: [TaskComponent, NewTaskComponent],
   templateUrl: './tasks.component.html',

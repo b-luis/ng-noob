@@ -8,11 +8,12 @@ import {
 } from '@angular/core';
 import { User } from '../../shared/models/user.model';
 import { CommonModule } from '@angular/common';
+import { CardComponent } from '../../shared/card/card.component';
 
 @Component({
-  selector: 'app-user',
+  selector: 'et-user',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, CardComponent],
   templateUrl: './user.component.html',
   styleUrl: './user.component.css',
 })

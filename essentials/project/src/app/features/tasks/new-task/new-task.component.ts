@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { type NewTaskData } from '../../../shared/models/task.model';
 
 @Component({
-  selector: 'app-new-task',
+  selector: 'add-new-task',
   standalone: true,
   imports: [FormsModule],
   templateUrl: './new-task.component.html',
