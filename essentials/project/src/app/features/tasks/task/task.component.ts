@@ -1,11 +1,13 @@
 import { Component, input, output } from '@angular/core';
-import { Task } from '../../../shared/models/task.model';
+import { DatePipe } from '@angular/common';
+
+import { type Task } from '../../../shared/models/task.model';
 import { CardComponent } from '../../../shared/card/card.component';
 
 @Component({
   selector: 'et-task',
   standalone: true,
-  imports: [CardComponent],
+  imports: [CardComponent, DatePipe],
   templateUrl: './task.component.html',
   styleUrl: './task.component.css',
 })
