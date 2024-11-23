@@ -1,6 +1,6 @@
 import { Component, output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NewTask } from '../../../shared/models/task.model';
+import { type NewTaskData } from '../../../shared/models/task.model';
 
 @Component({
   selector: 'app-new-task',
@@ -11,7 +11,7 @@ import { NewTask } from '../../../shared/models/task.model';
 })
 export class NewTaskComponent {
   cancel = output<boolean>();
-  add = output<NewTask>();
+  add = output<NewTaskData>();
 
   title$$ = signal<string>('');
   summary$$ = signal<string>('');
@@ -25,7 +25,7 @@ export class NewTaskComponent {
     return this.add.emit({
       title: this.title$$(),
       summary: this.summary$$(),
-      dueDate: this.date$$(),
+      date: this.date$$(),
     });
   }
 }

@@ -1,9 +1,9 @@
 import { Component, computed, effect, input, signal } from '@angular/core';
-import { TaskComponent } from './task/task.component';
 import { DUMMY_TASKS } from '../../shared/data/dummy-tasks';
-import { Task, NewTask } from '../../shared/models/task.model';
-import { User } from '../../shared/models/user.model';
+import { TaskComponent } from './task/task.component';
 import { NewTaskComponent } from './new-task/new-task.component';
+import { type Task, type NewTaskData } from '../../shared/models/task.model';
+import { type User } from '../../shared/models/user.model';
 
 @Component({
   selector: 'app-tasks',
@@ -47,10 +47,11 @@ export class TasksComponent {
     return this.isAddingTask$$.set(bool);
   }
 
-  public onAddTask(formVal: NewTask): void {
+  public onAddTask(formVal: NewTaskData): void {
     const newTask = {
-      id: 't4',
+      id: new Date().getTime().toString(),
       userId: this.selectedUser()?.id,
+      dueDate: formVal.date,
       ...formVal,
     };
 

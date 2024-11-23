@@ -6,10 +6,8 @@ export interface Task {
   dueDate: string;
 }
 
-export interface NewTask {
+export interface NewTaskData {
   title: string;
   summary: string;
-  dueDate: string;
-  id?: string;
-  userId?: string;
+  date: string;
 }
