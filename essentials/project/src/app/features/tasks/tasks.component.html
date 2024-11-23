@@ -16,10 +16,7 @@
 
   <ng-container>
     @if (isAddingTask$$()) {
-    <app-new-task
-      (add)="onAddTask($event)"
-      (cancel)="onCancelAddTask($event)"
-    ></app-new-task>
+    <app-new-task (add)="onAddTask($event)" (cancel)="onCancelAddTask($event)" />
     }
   </ng-container>
 </section>
