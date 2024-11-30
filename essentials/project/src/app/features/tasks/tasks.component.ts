@@ -4,6 +4,7 @@ import { TaskComponent } from './task/task.component';
 import { NewTaskComponent } from './new-task/new-task.component';
 import { type Task, type NewTaskData } from '../../shared/models/task.model';
 import { type User } from '../../shared/models/user.model';
+import { TasksService } from './tasks.service';
 
 @Component({
   selector: 'et-tasks',
@@ -15,47 +16,35 @@ import { type User } from '../../shared/models/user.model';
 export class TasksComponent {
   selectedUser = input.required<User | undefined>();
 
-  #tasks$$ = signal<Task[]>(DUMMY_TASKS);
-  isAddingTask$$ = signal<boolean>(false);
-
   selectedUserTasks = computed(() => {
     const userId = this.selectedUser()?.id;
-    return userId
-      ? this.#tasks$$().filter((task) => task.userId === userId)
-      : [];
+    return this.taskService.getUserTasks(userId);
   });
 
   name = computed(() => this.selectedUser()?.name);
 
-  constructor() {
-    effect(() => {
-      console.log('SELECTED USER ID', this.selectedUser()?.id);
-    });
+  constructor(private taskService: TasksService) {}
+
+  get isAddingTask(): boolean {
+    return this.taskService.isAddingTask();
   }
 
   public onStartAddTask(): void {
-    return this.isAddingTask$$.update((add) => !add);
+    this.taskService.toggleAddingTaskState();
   }
 
   public onCompleteTask(id: string): void {
-    this.#tasks$$.update((currentTasks) => {
-      return currentTasks.filter((task) => task.id !== id);
-    });
+    this.taskService.removeTask(id);
   }
 
   public onCancelAddTask(bool: boolean): void {
-    return this.isAddingTask$$.set(bool);
+    this.taskService.cancelTask(bool);
   }
 
   public onAddTask(formVal: NewTaskData): void {
-    const newTask = {
-      id: new Date().getTime().toString(),
-      userId: this.selectedUser()?.id,
-      dueDate: formVal.date,
-      ...formVal,
-    };
+    const userId = this.selectedUser()?.id;
+    if (!userId) throw new Error('No user selected');
 
-    this.#tasks$$.update((currentTasks: any) => [...currentTasks, newTask]);
-    this.onCancelAddTask(false);
+    this.taskService.addTask(formVal, userId);
   }
 }
