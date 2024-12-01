@@ -1,4 +1,11 @@
-import { Component, computed, effect, signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  effect,
+  Signal,
+  signal,
+  WritableSignal,
+} from '@angular/core';
 import { HeaderComponent } from './shared/components/header/header.component';
 import { UserComponent } from './features/user/user.component';
 import { DUMMY_USERS } from './shared/data/dummy-users';
@@ -14,16 +21,12 @@ import { User } from './shared/models/user.model';
 })
 export class AppComponent {
   users: User[] = DUMMY_USERS;
-  selectedUserId = signal<string>('');
+  selectedUserId: WritableSignal<string> = signal<string>('');
 
-  selectedUser = computed(() => {
+  constructor() {}
+
+  get selectedUser() {
     return this.users.find((user) => user.id === this.selectedUserId());
-  });
-
-  constructor() {
-    effect(() => {
-      console.log('Selected user:', this.selectedUser()?.name);
-    });
   }
 
   onSelectUser(id: string) {
