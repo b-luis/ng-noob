@@ -1,4 +1,11 @@
-import { Component, computed, effect, input, signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  effect,
+  inject,
+  input,
+  signal,
+} from '@angular/core';
 import { DUMMY_TASKS } from '../../shared/data/dummy-tasks';
 import { TaskComponent } from './task/task.component';
 import { NewTaskComponent } from './new-task/new-task.component';
@@ -14,37 +21,26 @@ import { TasksService } from './tasks.service';
   styleUrl: './tasks.component.css',
 })
 export class TasksComponent {
-  selectedUser = input.required<User | undefined>();
+  selectedUser = input.required<User>();
 
-  selectedUserTasks = computed(() => {
-    const userId = this.selectedUser()?.id;
-    return this.taskService.getUserTasks(userId);
-  });
+  name = computed(() => this.selectedUser().name);
+  userId = computed(() => this.selectedUser().id);
 
-  name = computed(() => this.selectedUser()?.name);
+  selectedUserTasks = computed(() =>
+    this.#taskService.getUserTasks(this.userId())
+  );
 
-  constructor(private taskService: TasksService) {}
+  #taskService = inject(TasksService);
 
   get isAddingTask(): boolean {
-    return this.taskService.isAddingTask();
+    return this.#taskService.isAddingTask();
   }
 
   public onStartAddTask(): void {
-    this.taskService.toggleAddingTaskState();
+    this.#taskService.toggleAddingTaskState();
   }
 
-  public onCompleteTask(id: string): void {
-    this.taskService.removeTask(id);
-  }
-
-  public onCancelAddTask(bool: boolean): void {
-    this.taskService.cancelTask(bool);
-  }
-
-  public onAddTask(formVal: NewTaskData): void {
-    const userId = this.selectedUser()?.id;
-    if (!userId) throw new Error('No user selected');
-
-    this.taskService.addTask(formVal, userId);
+  public onCloseAddTask(bool: boolean): void {
+    this.#taskService.cancelTask(bool);
   }
 }
