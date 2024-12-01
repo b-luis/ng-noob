@@ -20,12 +20,9 @@ import { CardComponent } from '../../shared/card/card.component';
 export class UserComponent {
   user = input.required<User>();
   selected = input.required<boolean>();
-
   select = output<string>();
 
   imagePath = computed(() => 'assets/users/' + this.user()?.avatar);
-
-  constructor() {}
 
   public onSelectUser() {
     this.select.emit(this.user().id);
