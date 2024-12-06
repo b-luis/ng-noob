@@ -1,0 +1,17 @@
+.header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.header__title {
+  display: flex;
+  flex-direction: column;
+}
+
+.header__logo {
+  width: 100px;
+  height: 100px;
+  margin: 0 auto;
+}
