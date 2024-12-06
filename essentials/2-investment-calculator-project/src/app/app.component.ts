@@ -1,8 +1,8 @@
 import { Component, output, signal } from '@angular/core';
-import { HeaderComponent } from './shared/header/header.component';
-import { UserInputComponent } from './shared/user-input/user-input.component';
+import { HeaderComponent } from './shared/components/header/header.component';
+import { UserInputComponent } from './shared/components/user-input/user-input.component';
 import { InvestmentInput, InvestmentResults } from './shared/models/data.type';
-import { InvestmentResultsComponent } from './shared/investment-results/investment-results.component';
+import { InvestmentResultsComponent } from './shared/components/investment-results/investment-results.component';
 
 @Component({
   selector: 'app-root',
