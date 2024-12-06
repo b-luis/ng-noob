@@ -13,7 +13,16 @@ export class TasksService {
   allTasks = computed(() => this.#tasks$$);
   isAddingTask = computed(() => this.isAddingTask$$());
 
-  constructor() {}
+  constructor() {
+    // fetch the tasks from the storage when the app loads
+    // and update
+    const tasks = localStorage.getItem('tasks');
+
+    if (tasks) {
+      // parse to convert them back as an array
+      this.#tasks$$.set(JSON.parse(tasks));
+    }
+  }
 
   public getUserTasks(userId: string | undefined): Task[] {
     if (!userId) return [];
@@ -31,12 +40,15 @@ export class TasksService {
 
     this.#tasks$$.update((currentTasks: any) => [...currentTasks, newTask]);
     this.updateAddingTaskState(false); // to dismiss the add new task dialog
+
+    this.saveTasks();
   }
 
   public removeTask(id: string): void {
     this.#tasks$$.update((currentTasks: any) =>
       currentTasks.filter((task: Task) => task.id !== id)
     );
+    this.saveTasks();
   }
 
   public cancelTask(bool: boolean): void {
@@ -49,5 +61,9 @@ export class TasksService {
 
   public toggleAddingTaskState(): void {
     this.isAddingTask$$.update((currentState) => !currentState);
+  }
+
+  private saveTasks() {
+    localStorage.setItem('tasks', JSON.stringify(this.#tasks$$()));
   }
 }
