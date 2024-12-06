@@ -1,4 +1,11 @@
 <div>
   <app-header />
-  <app-user-input (calculate)="onCalculateInvestmentResults($event)" />
+  <main>
+    <section>
+      <app-user-input (calculate)="onCalculateInvestmentResults($event)" />
+    </section>
+    <section>
+      <app-investment-results [results]="annualData()" />
+    </section>
+  </main>
 </div>

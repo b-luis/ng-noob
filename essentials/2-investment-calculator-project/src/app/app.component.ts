@@ -1,24 +1,22 @@
-import { Component, output } from '@angular/core';
+import { Component, output, signal } from '@angular/core';
 import { HeaderComponent } from './shared/header/header.component';
 import { UserInputComponent } from './shared/user-input/user-input.component';
-import { Data } from './shared/models/data.type';
+import { InvestmentInput, InvestmentResults } from './shared/models/data.type';
+import { InvestmentResultsComponent } from './shared/investment-results/investment-results.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   templateUrl: './app.component.html',
-  imports: [HeaderComponent, UserInputComponent],
+  imports: [HeaderComponent, UserInputComponent, InvestmentResultsComponent],
 })
 export class AppComponent {
-  // todo:
-  // add user input component that collects user input with two-way binding
-  // add investment results component that displays the results in a table
-  // you can use signals or events to communicate between components
+  annualData = signal<InvestmentResults[]>([]);
 
-  onCalculateInvestmentResults(data: Data) {
+  onCalculateInvestmentResults(data: InvestmentInput) {
+    const annualData = [];
     const { initialInvestment, annualInvestment, expectedReturn, duration } =
       data;
-    const annualData = [];
     let investmentValue = initialInvestment;
 
     for (let i = 0; i < duration; i++) {
@@ -36,6 +34,7 @@ export class AppComponent {
         totalAmountInvested: initialInvestment + annualInvestment * year,
       });
     }
-    console.log(annualData);
+
+    this.annualData.set(annualData);
   }
 }
