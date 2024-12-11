@@ -1,0 +1,20 @@
+<div id="dashboard">
+  <dashboard-item
+    title="Server Status"
+    [img]="{ src: 'status.png', alt: 'status photo' }"
+  >
+    <app-server-status [currentStatus]="currentStatus" />
+  </dashboard-item>
+  <dashboard-item
+    title="Traffic"
+    [img]="{ src: 'globe.png', alt: 'globe photo' }"
+  >
+    <app-traffic />
+  </dashboard-item>
+  <dashboard-item
+    title="Support Tickets"
+    [img]="{ src: 'list.png', alt: 'list photo' }"
+  >
+    <app-support-tickets />
+  </dashboard-item>
+</div>
