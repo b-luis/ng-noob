@@ -20,10 +20,7 @@ import { ButtonComponent } from '../button/button.component';
             <a href="/">Management</a>
           </li>
           <li>
-            <button appButton>
-              <span class="title">Login</span>
-              <span class="icon">→</span>
-            </button>
+            <button appButton>Logout <span ngProjectAs="icon">→</span></button>
           </li>
         </ul>
       </nav>
