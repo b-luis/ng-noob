@@ -6,10 +6,11 @@ import { Component, input } from '@angular/core';
   imports: [],
   template: `
     <span>
-      <ng-content select=".title"></ng-content>
+      <ng-content />
     </span>
     <span class="icon">
-      <ng-content select=".icon"></ng-content>
+      <!-- fallback, just incase icon selector isnt provided --->
+      <ng-content select="icon">→</ng-content>
     </span>
   `,
   styleUrl: './button.component.css',
