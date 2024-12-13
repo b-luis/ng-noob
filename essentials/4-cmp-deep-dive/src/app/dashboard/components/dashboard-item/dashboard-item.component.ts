@@ -1,10 +1,10 @@
-import { Component, input } from '@angular/core';
+import { Component, input, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'dashboard-item',
   standalone: true,
   imports: [],
-  template: ` <div class="dashboard-item">
+  template: `
     <article>
       <header>
         <img [src]="img().src" [alt]="img().alt" />
@@ -12,8 +12,9 @@ import { Component, input } from '@angular/core';
       </header>
       <ng-content></ng-content>
     </article>
-  </div>`,
+  `,
   styleUrl: './dashboard-item.component.css',
+  // host: { class: 'dashboard-item' },
 })
 export class DashboardItemComponent {
   img = input.required<{ src: string; alt: string }>();
