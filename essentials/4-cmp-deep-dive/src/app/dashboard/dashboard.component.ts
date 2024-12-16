@@ -16,6 +16,4 @@ import { DashboardItemComponent } from './components/dashboard-item/dashboard-it
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
 })
-export class DashboardComponent {
-  currentStatus = 'online';
-}
+export class DashboardComponent {}
