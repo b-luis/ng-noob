@@ -1,5 +1,7 @@
 import {
   AfterContentInit,
+  afterNextRender,
+  afterRender,
   Component,
   contentChild,
   ContentChild,
@@ -42,6 +44,18 @@ export class ControlComponent implements AfterContentInit {
   //? alternative way: Signal based
   private control =
     contentChild<ElementRef<HTMLInputElement | HTMLTextAreaElement>>('input');
+
+  constructor() {
+    //? executed again and again whenever anything changes on the site
+    //? allow you to define functions that should be executed whenever anything changes anywhere on the entire angular app
+    afterRender(() => {
+      console.log('afterRender');
+    });
+
+    afterNextRender(() => {
+      console.log('afterNextRender');
+    });
+  }
 
   ngAfterContentInit(): void {
     console.log('AFTER CONTENT INIT');
