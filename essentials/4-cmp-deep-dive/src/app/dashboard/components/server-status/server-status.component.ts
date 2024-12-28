@@ -27,7 +27,7 @@ export class ServerStatusComponent implements OnInit {
     // console.log(this.currentStatus());
 
     //? workaround to execute effects
-    effect(() => {
+    effect((onCleanup) => {
       const status = this.currentStatus();
       console.log(`Server status changed to: ${status}`);
 
@@ -40,9 +40,14 @@ export class ServerStatusComponent implements OnInit {
         );
       }, 5000);
 
-      this.destroyRef.onDestroy(() => {
+      onCleanup(() => {
         clearInterval(interval);
+        console.log('Interval cleared');
       });
+
+      // this.destroyRef.onDestroy(() => {
+      //   clearInterval(interval);
+      // });
     });
   }
 
