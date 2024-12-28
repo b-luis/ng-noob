@@ -1,4 +1,10 @@
-import { Component, ElementRef, viewChild, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  viewChild,
+  ViewChild,
+} from '@angular/core';
 import { ButtonComponent } from '../../../../shared/button/button.component';
 import { ControlComponent } from '../../../../shared/control/control.component';
 import { FormsModule } from '@angular/forms';
@@ -10,7 +16,7 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './new-ticket.component.html',
   styleUrl: './new-ticket.component.css',
 })
-export class NewTicketComponent {
+export class NewTicketComponent implements AfterViewInit {
   // @ViewChild('form')
   // form?: ElementRef<HTMLFormElement>;
 
@@ -22,6 +28,17 @@ export class NewTicketComponent {
 
   //? important variation of viewchild incase you need to select multiple instances of viewchild items
   // @ViewChildren(ButtonComponent) buttons
+
+  ngOnInit() {
+    console.log('ONINIT');
+    console.log(this.form()?.nativeElement);
+  }
+
+  //? If you need to work with the DOM elements or child components that are rendered in the template, you must wait until the view is initialized, which is why ngAfterViewInit is used.
+  ngAfterViewInit(): void {
+    console.log('AFTER VIEW INIT');
+    console.log(this.form().nativeElement);
+  }
 
   onSubmit(title: string, ticketText: string) {
     console.log('SUBMITTED!');
