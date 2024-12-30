@@ -2,6 +2,7 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
+  output,
   viewChild,
   ViewChild,
 } from '@angular/core';
@@ -26,6 +27,8 @@ export class NewTicketComponent implements AfterViewInit {
   //? viewChildren()
   private form = viewChild.required<ElementRef<HTMLFormElement>>('form');
 
+  add = output<{ title: string; text: string }>();
+
   //? important variation of viewchild incase you need to select multiple instances of viewchild items
   // @ViewChildren(ButtonComponent) buttons
 
@@ -44,6 +47,11 @@ export class NewTicketComponent implements AfterViewInit {
     console.log('SUBMITTED!');
     console.log(title);
     console.log(ticketText);
+
+    this.add.emit({
+      title,
+      text: ticketText,
+    });
 
     this.form().nativeElement.reset();
   }
