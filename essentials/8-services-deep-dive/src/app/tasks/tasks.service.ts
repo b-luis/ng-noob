@@ -1,5 +1,6 @@
-import { computed, Injectable, signal } from '@angular/core';
+import { computed, inject, Injectable, signal } from '@angular/core';
 import { Task, TaskStatus } from './task.model';
+import { LoggingService } from '../logging.service';
 
 @Injectable({
   providedIn: 'root',
@@ -8,6 +9,8 @@ export class TasksService {
   //? Marking `tasks` as private ensures that it is encapsulated within the service,
   //? preventing direct modification from outside components.
   private tasks = signal<Task[]>([]);
+
+  private loggingService = inject(LoggingService);
 
   //? Exposing `tasks` as a read-only signal allows components to observe changes
   //? without directly mutating the data, maintaining controlled state management.
@@ -24,6 +27,7 @@ export class TasksService {
 
     //? [...oldTasks] - new copy so we dont mutate the old arr object in memory
     this.tasks.update((oldTasks) => [...oldTasks, newTask]);
+    this.loggingService.log('ADDED TASK with title: ' + taskData.title);
   }
 
   updateTaskStatus(taskId: string, newStatus: TaskStatus) {
@@ -32,5 +36,6 @@ export class TasksService {
         task.id === taskId ? { ...task, status: newStatus } : task
       )
     );
+    this.loggingService.log('CHANGED TASK STATUS TO: ' + newStatus);
   }
 }
