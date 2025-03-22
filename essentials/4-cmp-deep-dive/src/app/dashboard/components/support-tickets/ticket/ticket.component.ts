@@ -9,7 +9,14 @@ import { Ticket } from '../support-ticket.smodel';
   styleUrl: './ticket.component.css',
 })
 export class TicketComponent {
+  // configuring component input & outputs
+  //? the alias 'data' will be used where we are binding the input
+  //? not a good practice - avoid using it unless you really need to
+  // ticket = input.required<Ticket>({ alias: 'data' });
+  // theres also transform function to modify the incoming data
+
   data = input.required<Ticket>({});
+
   close = output();
   detailsVisible = signal<boolean>(false);
 
