@@ -2,9 +2,9 @@ import { computed, inject, Injectable, signal } from '@angular/core';
 import { Task, TaskStatus } from './task.model';
 import { LoggingService } from '../logging.service';
 
-@Injectable({
-  providedIn: 'root',
-})
+// @Injectable({
+//   providedIn: 'root',
+// })
 export class TasksService {
   //? Marking `tasks` as private ensures that it is encapsulated within the service,
   //? preventing direct modification from outside components.
